@@ -1,15 +1,11 @@
 import React from 'react';
 import './App.css';
+import Home from './components/Home';
 
 function App() {
   return (
     <div>
-      <label htmlFor="campo-pesquisa">
-        <input type="text" />
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
-      </label>
+      <Home />
     </div>
   );
 }
