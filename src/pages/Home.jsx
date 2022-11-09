@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import './Home.css';
-// import CardItem from '../components/CardItem';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import CardItem from '../components/CardItem';
 
@@ -18,6 +17,7 @@ class Home extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.getProducts = this.getProducts.bind(this);
+    this.categoryProducts = this.categoryProducts.bind(this);
   }
 
   handleChange({ target }) {
@@ -31,12 +31,18 @@ class Home extends React.Component {
     this.setState({ listaProdutos: retorno.results });
   }
 
+  async categoryProducts({ target }) {
+    const valor = target.value;
+    const retorno = await getProductsFromCategoryAndQuery(valor, '');
+    this.setState({ categoria: valor, listaProdutos: retorno.results });
+  }
+
   render() {
     const { listaProdutos } = this.state;
     return (
       <div className="home-content">
         <div className="lado-esquerdo">
-          <Categories handleChange={ this.handleChange } />
+          <Categories handleChange={ this.categoryProducts } />
         </div>
         <div className="lado-direito">
           <div className="pesquisa">
