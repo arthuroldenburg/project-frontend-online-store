@@ -109,6 +109,7 @@ class Home extends React.Component {
                     productId={ e.id }
                     title={ e.title }
                     availableQ={ e.available_quantity }
+                    shipping={ e.shipping.free_shipping }
                     localS={ this.carrinhoLocalStorage }
                   />)))
             }

@@ -57,7 +57,7 @@ class CardItem extends React.Component {
   }
 
   render() {
-    const { title, thumbnail, price, productId } = this.props;
+    const { title, thumbnail, price, productId, shipping } = this.props;
     return (
       <div data-testid="product">
         <img src={ thumbnail } alt={ title } />
@@ -75,6 +75,7 @@ class CardItem extends React.Component {
         >
           Adicionar ao Carrinho
         </button>
+        { shipping ? (<p data-testid="free-shipping">Frete Grátis</p>) : ('') }
       </div>
     );
   }
@@ -87,6 +88,7 @@ CardItem.propTypes = {
   productId: PropTypes.string.isRequired,
   localS: PropTypes.func.isRequired,
   availableQ: PropTypes.number.isRequired,
+  shipping: PropTypes.bool.isRequired,
 };
 
 export default CardItem;
