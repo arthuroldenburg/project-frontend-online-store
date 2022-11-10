@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
+import FormDetail from '../components/FormDetail';
 
 class Detail extends React.Component {
   constructor() {
@@ -67,31 +68,36 @@ class Detail extends React.Component {
   render() {
     const { produto } = this.state;
     const { title, thumbnail, price } = produto;
+    const { match } = this.props;
+    const { id } = match.params;
 
     return (
       <div>
-        <h1 data-testid="product-detail-name">{title}</h1>
-        <img
-          data-testid="product-detail-image"
-          src={ thumbnail }
-          alt={ title }
-        />
-        <p data-testid="product-detail-price">{price}</p>
-        <button
-          type="button"
-          onClick={ this.onClick }
-          data-testid="product-detail-add-to-cart"
-        >
-          Adicionar ao Carrinho
-        </button>
-        <Link to="/cart">
+        <div>
+          <h1 data-testid="product-detail-name">{title}</h1>
+          <img
+            data-testid="product-detail-image"
+            src={ thumbnail }
+            alt={ title }
+          />
+          <p data-testid="product-detail-price">{price}</p>
           <button
             type="button"
-            data-testid="shopping-cart-button"
+            onClick={ this.onClick }
+            data-testid="product-detail-add-to-cart"
           >
-            Carrinho
+            Adicionar ao Carrinho
           </button>
-        </Link>
+          <Link to="/cart">
+            <button
+              type="button"
+              data-testid="shopping-cart-button"
+            >
+              Carrinho
+            </button>
+          </Link>
+        </div>
+        <FormDetail id={ id } />
       </div>
     );
   }
