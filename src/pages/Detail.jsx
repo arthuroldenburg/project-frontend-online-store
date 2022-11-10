@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
 
-// Lindo!
 class Detail extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      produto: { title: '', thumbnail: '', price: 0 },
+      produto: { title: '', thumbnail: '', price: 0, id: '' },
     };
+
+    this.onClick = this.onClick.bind(this);
   }
 
   async componentDidMount() {
@@ -19,6 +20,48 @@ class Detail extends React.Component {
     const product = await getProductById(id);
 
     this.setState({ produto: product });
+  }
+
+  onClick() {
+    const { produto } = this.state;
+    const { title, price, id } = produto;
+    const locStor = localStorage.getItem('cart');
+    let listaCarrinho = [];
+
+    if (locStor === null) {
+      const product = {
+        title,
+        price,
+        productId: id,
+        quantidade: 1,
+      };
+
+      listaCarrinho = [product];
+    } else {
+      listaCarrinho = JSON.parse(locStor);
+      let naoAchou = true;
+      listaCarrinho.forEach((e) => {
+        if (e.productId === id) {
+          e.quantidade += 1;
+          naoAchou = false;
+        }
+      });
+
+      if (naoAchou) {
+        const product = {
+          title,
+          price,
+          productId: id,
+          quantidade: 1,
+        };
+
+        listaCarrinho.push(product);
+      }
+
+      localStorage.setItem('cart', listaCarrinho);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(listaCarrinho));
   }
 
   render() {
@@ -34,10 +77,17 @@ class Detail extends React.Component {
           alt={ title }
         />
         <p data-testid="product-detail-price">{price}</p>
+        <button
+          type="button"
+          onClick={ this.onClick }
+          data-testid="product-detail-add-to-cart"
+        >
+          Adicionar ao Carrinho
+        </button>
         <Link to="/cart">
           <button
             type="button"
-            data-testid="product-detail-button"
+            data-testid="shopping-cart-button"
           >
             Carrinho
           </button>
