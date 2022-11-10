@@ -13,11 +13,25 @@ class Home extends React.Component {
       input: '',
       categoria: '',
       listaProdutos: [],
+      somaCarrinho: 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.getProducts = this.getProducts.bind(this);
     this.categoryProducts = this.categoryProducts.bind(this);
+    this.carrinhoLocalStorage = this.carrinhoLocalStorage.bind(this);
+  }
+
+  componentDidMount() {
+    const locStorNumber = localStorage.getItem('itemCount');
+
+    if (locStorNumber === null) {
+      const contagem = 0;
+      localStorage.setItem('itemCount', contagem.toString());
+    } else {
+      const cont = parseInt(localStorage.getItem('itemCount'), 10);
+      this.setState({ somaCarrinho: cont });
+    }
   }
 
   handleChange({ target }) {
@@ -31,6 +45,22 @@ class Home extends React.Component {
     this.setState({ listaProdutos: retorno.results });
   }
 
+  carrinhoLocalStorage() {
+    const locStorNumber = localStorage.getItem('itemCount');
+    let contagem;
+
+    if (locStorNumber === null) {
+      contagem = 1;
+      localStorage.setItem('itemCount', contagem.toString());
+    } else {
+      contagem = parseInt(locStorNumber, 10);
+      contagem += 1;
+      localStorage.setItem('itemCount', contagem.toString());
+    }
+
+    this.setState({ somaCarrinho: contagem });
+  }
+
   async categoryProducts({ target }) {
     const valor = target.value;
     const retorno = await getProductsFromCategoryAndQuery(valor, '');
@@ -38,7 +68,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { listaProdutos } = this.state;
+    const { listaProdutos, somaCarrinho } = this.state;
     return (
       <div className="home-content">
         <div className="lado-esquerdo">
@@ -62,7 +92,10 @@ class Home extends React.Component {
             <p data-testid="home-initial-message">
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>
-            <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
+            <Link to="/cart" data-testid="shopping-cart-button">
+              Carrinho
+              <p data-testid="shopping-cart-size">{somaCarrinho}</p>
+            </Link>
           </div>
           <div className="items">
             {
@@ -75,6 +108,7 @@ class Home extends React.Component {
                     key={ id }
                     productId={ id }
                     title={ title }
+                    localS={ this.carrinhoLocalStorage }
                   />)))
             }
           </div>

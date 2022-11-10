@@ -70,6 +70,7 @@ class Checkout extends React.Component {
   finalizarCompra() {
     if (this.verification()) {
       localStorage.removeItem('cart');
+      localStorage.setItem('itemCount', '0');
       this.setState({ finalizado: true });
     } else {
       this.setState({ errorCheck: true });

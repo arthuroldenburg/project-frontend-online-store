@@ -10,6 +10,7 @@ class Detail extends React.Component {
 
     this.state = {
       produto: { title: '', thumbnail: '', price: 0, id: '' },
+      somaProdutos: 0,
     };
 
     this.onClick = this.onClick.bind(this);
@@ -19,8 +20,9 @@ class Detail extends React.Component {
     const { match } = this.props;
     const { id } = match.params;
     const product = await getProductById(id);
+    const contagem = parseInt(localStorage.getItem('itemCount'), 10);
 
-    this.setState({ produto: product });
+    this.setState({ produto: product, somaProdutos: contagem });
   }
 
   onClick() {
@@ -66,7 +68,7 @@ class Detail extends React.Component {
   }
 
   render() {
-    const { produto } = this.state;
+    const { produto, somaProdutos } = this.state;
     const { title, thumbnail, price } = produto;
     const { match } = this.props;
     const { id } = match.params;
@@ -96,6 +98,7 @@ class Detail extends React.Component {
               Carrinho
             </button>
           </Link>
+          <p data-testid="shopping-cart-size">{somaProdutos}</p>
         </div>
         <FormDetail id={ id } />
       </div>

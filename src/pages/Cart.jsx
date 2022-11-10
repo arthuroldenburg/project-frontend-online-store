@@ -28,17 +28,21 @@ class Cart extends React.Component {
     const valor = target.value;
     const id = target.name;
     const locStor = JSON.parse(localStorage.getItem('cart'));
+    let contagem = parseInt(localStorage.getItem('itemCount'), 10);
 
     locStor.forEach((e) => {
       if (e.productId === id) {
         if (valor === 'diminuir') {
           e.quantidade -= 1;
+          contagem -= 1;
         } else {
           e.quantidade += 1;
+          contagem += 1;
         }
       }
     });
 
+    localStorage.setItem('itemCount', contagem.toString());
     localStorage.setItem('cart', JSON.stringify(locStor));
     this.setState({ carrinho: locStor });
   }
@@ -47,15 +51,20 @@ class Cart extends React.Component {
     const id = target.name;
     const locStor = JSON.parse(localStorage.getItem('cart'));
     let index;
+    let quant;
 
     locStor.forEach((e, i) => {
       if (e.productId === id) {
         index = i;
+        quant = e.quantidade;
       }
     });
 
-    locStor.splice(index, 1);
+    let contagem = parseInt(localStorage.getItem('itemCount'), 10);
+    contagem -= quant;
+    localStorage.setItem('itemCount', contagem.toString());
 
+    locStor.splice(index, 1);
     localStorage.setItem('cart', JSON.stringify(locStor));
     this.setState({ carrinho: locStor });
   }

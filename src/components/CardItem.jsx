@@ -10,9 +10,12 @@ class CardItem extends React.Component {
   }
 
   onClick() {
+    const { localS } = this.props;
     const { title, price, productId } = this.props;
     const locStor = localStorage.getItem('cart');
     let listaCarrinho = [];
+
+    localS();
 
     if (locStor === null) {
       const produto = {
@@ -79,6 +82,7 @@ CardItem.propTypes = {
   thumbnail: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   productId: PropTypes.string.isRequired,
+  localS: PropTypes.func.isRequired,
 };
 
 export default CardItem;
