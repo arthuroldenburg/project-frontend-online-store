@@ -11,27 +11,30 @@ class CardItem extends React.Component {
 
   onClick() {
     const { localS } = this.props;
-    const { title, price, productId } = this.props;
+    const { title, price, productId, availableQ } = this.props;
     const locStor = localStorage.getItem('cart');
     let listaCarrinho = [];
-
-    localS();
 
     if (locStor === null) {
       const produto = {
         title,
         price,
         productId,
+        availableQ,
         quantidade: 1,
       };
 
+      localS();
       listaCarrinho = [produto];
     } else {
       listaCarrinho = JSON.parse(locStor);
       let naoAchou = true;
       listaCarrinho.forEach((e) => {
         if (e.productId === productId) {
-          e.quantidade += 1;
+          if (e.quantidade < e.availableQ) {
+            localS();
+            e.quantidade += 1;
+          }
           naoAchou = false;
         }
       });
@@ -41,13 +44,13 @@ class CardItem extends React.Component {
           title,
           price,
           productId,
+          availableQ,
           quantidade: 1,
         };
 
+        localS();
         listaCarrinho.push(produto);
       }
-
-      localStorage.setItem('cart', listaCarrinho);
     }
 
     localStorage.setItem('cart', JSON.stringify(listaCarrinho));
@@ -83,6 +86,7 @@ CardItem.propTypes = {
   price: PropTypes.number.isRequired,
   productId: PropTypes.string.isRequired,
   localS: PropTypes.func.isRequired,
+  availableQ: PropTypes.number.isRequired,
 };
 
 export default CardItem;
