@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Cart.css';
 
-// Lindo!
 class Cart extends React.Component {
   constructor() {
     super();
@@ -109,6 +109,9 @@ class Cart extends React.Component {
       <div>
         { cheio ? this.criarCarrinho()
           : (<h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>) }
+        <Link to="/checkout" data-testid="checkout-products">
+          <button type="button">Finalizar Compra</button>
+        </Link>
       </div>
     );
   }
