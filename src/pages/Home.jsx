@@ -101,13 +101,14 @@ class Home extends React.Component {
             {
               (listaProdutos.length === 0)
                 ? (<h4>Nenhum produto foi encontrado</h4>)
-                : (listaProdutos.map(({ price, thumbnail, title, id }) => (
+                : (listaProdutos.map((e) => (
                   <CardItem
-                    price={ price }
-                    thumbnail={ thumbnail }
-                    key={ id }
-                    productId={ id }
-                    title={ title }
+                    price={ e.price }
+                    thumbnail={ e.thumbnail }
+                    key={ e.id }
+                    productId={ e.id }
+                    title={ e.title }
+                    availableQ={ e.available_quantity }
                     localS={ this.carrinhoLocalStorage }
                   />)))
             }

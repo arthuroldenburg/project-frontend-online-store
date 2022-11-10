@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Requisito palhaçada
 class FormDetail extends React.Component {
   constructor() {
     super();

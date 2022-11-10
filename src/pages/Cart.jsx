@@ -35,7 +35,7 @@ class Cart extends React.Component {
         if (valor === 'diminuir') {
           e.quantidade -= 1;
           contagem -= 1;
-        } else {
+        } else if (e.quantidade < e.availableQ) {
           e.quantidade += 1;
           contagem += 1;
         }
