@@ -1,15 +1,10 @@
-* {
-  background-color: #121212;
-  color: white;
-}
-
 .home-content {
   display: flex;
   flex-direction: row;
 }
 
 .lado-esquerdo {
-  border-right: 1px black solid;
+  border-right: 1px white solid;
   display: flex;
   flex-direction: column;
   width: 20%;
